@@ -1,23 +1,13 @@
 with customers as (
 
-    select
-        id as customer_id,
-        first_name,
-        last_name
-
-    from workspace.jaffle_shop.customers
-
+    select * from {{ref('stg_customers')}}
+    
 ),
 
 orders as (
 
-    select
-        id as order_id,
-        user_id as customer_id,
-        order_date,
-        status
+        select * from {{ref('stg_orders')}}
 
-    from workspace.jaffle_shop.orders
 
 ),
 

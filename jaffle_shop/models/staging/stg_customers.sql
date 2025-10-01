@@ -1,24 +1,6 @@
-with
-
-source as (
-
-    -- {# This references seed (CSV) data - try switching to {{ source('ecom', 'raw_customers') }} #}
-    select * from {{ ref('raw_customers') }}
-
-),
-
-renamed as (
-
-    select
-
-        ----------  ids
+select
         id as customer_id,
+        first_name,
+        last_name
 
-        ---------- text
-        name as customer_name
-
-    from source
-
-)
-
-select * from renamed
+    from workspace.jaffle_shop.customers
