@@ -1,29 +1,34 @@
-with
+with customers as (
 
-customers as (
+    select
+        id as customer_id,
+        first_name,
+        last_name
 
-    select * from {{ ref('stg_customers') }}
+    from workspace.jaffle_shop.customers
 
 ),
 
 orders as (
 
-    select * from {{ ref('orders') }}
+    select
+        id as order_id,
+        user_id as customer_id,
+        order_date,
+        status
+
+    from workspace.jaffle_shop.orders
 
 ),
 
-customer_orders_summary as (
+customer_orders as (
 
     select
-        orders.customer_id,
+        customer_id,
 
-        count(distinct orders.order_id) as count_lifetime_orders,
-        count(distinct orders.order_id) > 1 as is_repeat_buyer,
-        min(orders.order_date) as first_order_date,
-        max(orders.order_date) as last_order_date,
-        sum(orders.subtotal) as lifetime_spend_pretax,
-        sum(orders.tax_paid) as lifetime_tax_paid,
-        sum(orders.order_total) as lifetime_spend
+        min(order_date) as first_order_date,
+        max(order_date) as most_recent_order_date,
+        count(order_id) as number_of_orders
 
     from orders
 
@@ -31,28 +36,21 @@ customer_orders_summary as (
 
 ),
 
-joined as (
+
+final as (
 
     select
-        customers.*,
-
-        customer_orders_summary.count_lifetime_orders,
-        customer_orders_summary.first_order_date,
-        customer_orders_summary.last_order_date,
-        customer_orders_summary.lifetime_spend_pretax,
-        customer_orders_summary.lifetime_tax_paid,
-        customer_orders_summary.lifetime_spend,
-
-        case
-            when customer_orders_summary.is_repeat_buyer then 'returning'
-            else 'new'
-        end as customer_type
+        customers.customer_id,
+        customers.first_name,
+        customers.last_name,
+        customer_orders.first_order_date,
+        customer_orders.most_recent_order_date,
+        coalesce(customer_orders.number_of_orders, 0) as number_of_orders
 
     from customers
 
-    left join customer_orders_summary
-        on customers.customer_id = customer_orders_summary.customer_id
+    left join customer_orders using (customer_id)
 
 )
 
-select * from joined
+select * from final
