@@ -1,0 +1,11 @@
+# Ignorar artefatos do dbt na contagem do GitHub Linguist
+jaffle_shop/logs/**                 linguist-generated
+jaffle_shop/target/**               linguist-vendored
+jaffle_shop/dbt_packages/**         linguist-vendored
+jaffle_shop/dbt_internal_packages/** linguist-vendored
+README.md                           linguist-documentation
+
+# Garantir que SQL e YAML contem como linguagens
+*.sql   linguist-language=SQL
+*.yml   linguist-language=YAML
+*.yaml  linguist-language=YAML
