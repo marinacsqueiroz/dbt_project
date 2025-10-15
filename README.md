@@ -90,6 +90,31 @@ dbt test --select test_type:generic
 # Run only singular tests
 dbt test --select test_type:singular
 ```
+
+### 🧪 Tests in dbt
+
+In **dbt**, tests are used to validate your data models and maintain data quality.  
+There are **two main types of tests**:
+
+- **Generic tests** 🧱  
+  - Predefined and reusable tests written in **YAML**.  
+  - Applied to columns to check for common data issues (e.g., duplicates, nulls, invalid values).  
+
+- **Singular tests** 🎯  
+  - Custom **SQL-based** tests that you define manually.  
+  - Each test returns the records that fail the condition — used for specific, one-off data checks.
+
+#### ✅ Built-in Generic Tests
+
+dbt includes four built-in generic tests:
+
+| Test | Purpose |
+|------|----------|
+| **unique** | Ensures every value in a column is unique. |
+| **not_null** | Ensures no null values exist in a column. |
+| **accepted_values** | Checks that column values match a predefined list. |
+| **relationships** | Validates referential integrity — ensures a value in one model exists in another. |
+
 --- 
 
 ## ⚙️ Building and Testing the Project
@@ -117,3 +142,35 @@ The dbt build command runs several dbt tasks in sequence, ensuring your project 
 
 - **dbt snapshot**  
   Tracks slowly changing dimensions (SCD) in your data.
+
+---
+
+## 🎓 Learn More
+
+If you want to learn dbt fundamentals step by step — including how to build, test, and document models directly in VS Code — check out the official **dbt Learn** course:
+
+👉 [**dbt Fundamentals (VS Code)**](https://learn.getdbt.com/courses/dbt-fundamentals-vs-code)
+
+This free course from the dbt team covers:
+- Setting up dbt Core locally  
+- Building and testing models  
+- Using Jinja and macros  
+- Running dbt in VS Code  
+- Best practices for analytics engineering  
+
+💡 *Highly recommended for anyone starting with dbt or looking to solidify core concepts.*
+
+---
+
+---
+
+## 📚 References & Learning Resources
+
+Here are some useful resources to go deeper into **dbt**, data modeling, and analytics engineering:
+
+- 📘 [**dbt Documentation**](https://docs.getdbt.com/) — The official reference for dbt Core, Jinja syntax, testing, and deployment best practices.  
+- 🧠 [**dbt Learn Platform**](https://learn.getdbt.com/) — Free interactive courses to learn dbt hands-on.  
+- 💻 [**dbt Fundamentals (VS Code)**](https://learn.getdbt.com/courses/dbt-fundamentals-vs-code) — Official dbt course to learn how to set up dbt locally, build models, run tests, and use VS Code effectively.  
+- 🧩 [**dbt Hub**](https://hub.getdbt.com/) — The official registry of community-maintained dbt packages and macros (like `dbt_utils`, `dbt_expectations`, and more) ready to install and extend your project.  
+
+💡 *Highly recommended for anyone starting with dbt or looking to strengthen their foundation in analytics engineering.*
