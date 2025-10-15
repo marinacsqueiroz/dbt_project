@@ -131,6 +131,7 @@ It runs the following steps **in the correct dependency order**:
 
 The dbt build command runs several dbt tasks in sequence, ensuring your project is built and tested in the right order:
 
+```bash
 - **dbt run**  
   Transforms and builds models in your warehouse.
 
@@ -142,7 +143,7 @@ The dbt build command runs several dbt tasks in sequence, ensuring your project 
 
 - **dbt snapshot**  
   Tracks slowly changing dimensions (SCD) in your data.
-
+```
 ---
 
 ## 🎓 Learn More
@@ -172,5 +173,3 @@ Here are some useful resources to go deeper into **dbt**, data modeling, and ana
 - 🧠 [**dbt Learn Platform**](https://learn.getdbt.com/) — Free interactive courses to learn dbt hands-on.  
 - 💻 [**dbt Fundamentals (VS Code)**](https://learn.getdbt.com/courses/dbt-fundamentals-vs-code) — Official dbt course to learn how to set up dbt locally, build models, run tests, and use VS Code effectively.  
 - 🧩 [**dbt Hub**](https://hub.getdbt.com/) — The official registry of community-maintained dbt packages and macros (like `dbt_utils`, `dbt_expectations`, and more) ready to install and extend your project.  
-
-💡 *Highly recommended for anyone starting with dbt or looking to strengthen their foundation in analytics engineering.*
