@@ -132,16 +132,16 @@ It runs the following steps **in the correct dependency order**:
 The dbt build command runs several dbt tasks in sequence, ensuring your project is built and tested in the right order:
 
 ```bash
-- **dbt run**  
+dbt run
   Transforms and builds models in your warehouse.
 
-- **dbt test**  
+dbt test
   Validates your data for quality issues.
 
-- **dbt seed**  
+dbt seed
   Loads CSV data into your warehouse tables.
 
-- **dbt snapshot**  
+dbt snapshot
   Tracks slowly changing dimensions (SCD) in your data.
 ```
 ---
