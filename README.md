@@ -38,8 +38,12 @@ models/
   - stripe/
     - stg_stripe_payments.sql
   - jaffle_shop/
+    - _stg_jaffle_shop.yml
+    - _stg_jaffle_shop.yml
     - stg_jaffle_shop_customers.sql
     - stg_jaffle_shop_orders.sql
+- tests/
+  - assert_positive_total_for_payments.sql
 
 
 ### Naming
@@ -69,7 +73,47 @@ models/
 
 ---
 
-Execute dbt test to run all generic and singular tests in your project.
-Execute dbt test --select {name} to run only expecific tests in your project.
-Execute dbt test --select test_type:generic to run only generic tests in your project.
-Execute dbt test --select test_type:singular to run only singular tests in your project.
+## 🧪 Running dbt tests
+
+You can validate all your data models and assumptions using built-in and custom dbt tests.
+
+```bash
+# Run all tests
+dbt test
+
+# Run a specific test by name
+dbt test --select {name}
+
+# Run only generic tests
+dbt test --select test_type:generic
+
+# Run only singular tests
+dbt test --select test_type:singular
+```
+--- 
+
+## ⚙️ Building and Testing the Project
+
+### 🧩 `dbt build`
+
+The `dbt build` command is the **recommended all-in-one workflow** for local or CI/CD execution.  
+It runs the following steps **in the correct dependency order**:
+
+1. ✅ **Source freshness tests** — validates that your raw data sources are available and up-to-date.  
+2. 🧱 **Model builds** — runs `dbt run` to build all models (staging, marts, etc.) according to your DAG.  
+3. 🔍 **Model tests** — executes all generic and custom tests for each model after it’s built.  
+4. 💚 **If all tests pass**, the build is considered successful, ensuring your data is both valid and reliable.
+
+The dbt build command runs several dbt tasks in sequence, ensuring your project is built and tested in the right order:
+
+- **dbt run**  
+  Transforms and builds models in your warehouse.
+
+- **dbt test**  
+  Validates your data for quality issues.
+
+- **dbt seed**  
+  Loads CSV data into your warehouse tables.
+
+- **dbt snapshot**  
+  Tracks slowly changing dimensions (SCD) in your data.
