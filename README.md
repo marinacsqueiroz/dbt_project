@@ -146,25 +146,6 @@ dbt snapshot
 ```
 ---
 
-## 🎓 Learn More
-
-If you want to learn dbt fundamentals step by step — including how to build, test, and document models directly in VS Code — check out the official **dbt Learn** course:
-
-👉 [**dbt Fundamentals (VS Code)**](https://learn.getdbt.com/courses/dbt-fundamentals-vs-code)
-
-This free course from the dbt team covers:
-- Setting up dbt Core locally  
-- Building and testing models  
-- Using Jinja and macros  
-- Running dbt in VS Code  
-- Best practices for analytics engineering  
-
-💡 *Highly recommended for anyone starting with dbt or looking to solidify core concepts.*
-
----
-
----
-
 ## 📚 References & Learning Resources
 
 Here are some useful resources to go deeper into **dbt**, data modeling, and analytics engineering:
