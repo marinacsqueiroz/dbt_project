@@ -65,6 +65,88 @@ models/
     
 ---
 
+## 📦 1. Install Dependencies
+
+### 🔹 Requirements
+- Python 3.9 or higher  
+- Active account and workspace on **Databricks**  
+- **VS Code** installed  
+
+### 🔹 Install dbt for Databricks
+In the VS Code terminal, run:
+
+```bash
+### 🔹 Install dbt for Databricks
+pip install dbt-databricks
+
+### 🔹 Other recommended dependencies
+pip install dbt-core
+```
+
+## 🗂️ 2. Configure the `.dbt` Directory
+
+After installing dbt, you need to set up the profiles directory.
+
+### Steps:
+1. Go to: C:\Users\<your_username>\
+2. Copy and paste the `.dbt` folder from this project into your user directory.
+
+## 🚀 4. Initialize the Environment on Databricks
+
+To create the **schemas** in Databricks:
+
+```bash
+dbtf run-operation init_databricks --args '{"catalog": "workspace"}'
+```
+
+This command creates the schemas:
+- workspace.jaffle_shop
+- workspace.stripe
+
+---
+
+## 🧱 5. Create and Load the Tables
+
+Run the following commands to create and populate the base tables:
+
+```bash
+dbtf run-operation create_jaffle_shop_customers_table --args '{"catalog": "workspace", "schema_name": "jaffle_shop"}'
+
+dbtf run-operation create_jaffle_shop_orders_table --args '{"catalog": "workspace", "schema_name": "jaffle_shop"}'
+
+dbtf run-operation create_stripe_payments_table --args '{"catalog": "workspace", "schema_name": "stripe"}'
+```
+
+These macros:
+- Create the tables
+- Execute the `COPY INTO` from public S3 CSVs
+
+The created tables will be:
+- workspace.jaffle_shop.customers
+- workspace.jaffle_shop.orders
+- workspace.stripe.payment
+
+---
+
+## 🔍 6. Validate on Databricks
+
+Open the **SQL Editor** in Databricks and run:
+
+```
+USE CATALOG workspace;
+SHOW SCHEMAS;
+SHOW TABLES IN workspace.jaffle_shop;
+SHOW TABLES IN workspace.stripe;
+SELECT COUNT(*) FROM workspace.jaffle_shop.customers;
+SELECT COUNT(*) FROM workspace.jaffle_shop.orders;
+SELECT COUNT(*) FROM workspace.stripe.payment;
+```
+
+You should see the tables created and populated with data ✅
+
+
+---
+
 ## 🧰 Tech stack
 
 - **Databricks** (Unity Catalog recommended)

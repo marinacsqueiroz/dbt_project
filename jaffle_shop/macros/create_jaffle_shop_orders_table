@@ -1,0 +1,50 @@
+{% macro create_jaffle_shop_orders_table(
+    catalog='workspace',
+    schema_name='jaffle_shop',
+    s3_base_path='s3://dbt-tutorial-public'
+) %}
+
+  {% set fq_schema = catalog ~ '.' ~ schema_name %}
+
+  {% call statement('create_orders', fetch_result=False) %}
+
+    USE CATALOG {{ catalog }};
+    CREATE SCHEMA IF NOT EXISTS {{ fq_schema }};
+
+    CREATE TABLE IF NOT EXISTS {{ fq_schema }}.orders
+    (
+      id              INT,
+      user_id         INT,
+      order_date      DATE,
+      status          STRING,
+      _etl_loaded_at  TIMESTAMP
+    );
+
+    -- garante tipo STRING para status
+    ALTER TABLE {{ fq_schema }}.orders
+    ALTER COLUMN status TYPE STRING;
+
+    COPY INTO {{ fq_schema }}.orders
+    FROM (
+      SELECT
+        CAST(ID AS INT)         AS id,
+        CAST(USER_ID AS INT)    AS user_id,
+        TO_DATE(ORDER_DATE)     AS order_date,
+        STATUS                  AS status,
+        current_timestamp       AS _etl_loaded_at
+      FROM '{{ s3_base_path }}/jaffle_shop_orders.csv'
+    )
+    FILEFORMAT = CSV
+    FORMAT_OPTIONS ('header' = 'true', 'delimiter' = ',')
+    COPY_OPTIONS  ('force'   = 'true');
+
+  {% endcall %}
+
+  {% call statement('count_orders', fetch_result=True) %}
+    SELECT count(*) AS row_count FROM {{ fq_schema }}.orders
+  {% endcall %}
+
+  {% set res = load_result('count_orders') %}
+  {% do log('✅ orders OK — rows=' ~ res['data'][0][0], info=True) %}
+
+{% endmacro %}

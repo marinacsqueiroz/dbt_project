@@ -1,0 +1,11 @@
+jaffle_shop:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      schema: dbt_project
+      catalog: workspace    
+      host: <your-databricks-instance>
+      http_path: <your-http-path>
+      auth_type: oauth
+      threads: 16
