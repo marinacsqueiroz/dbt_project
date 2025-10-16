@@ -1,9 +1,11 @@
 sources:
   - name: stripe
+    description: Source containing financial data from the Stripe integration, including all transactions and payments processed through the platform.
     database: workspace
     schema: stripe
     tables:
       - name: payment
+        description: Table storing individual payment records processed via Stripe, including status, amounts, timestamps, and transaction identifiers.
         config:
           loaded_at_field: _batched_at
           freshness:
